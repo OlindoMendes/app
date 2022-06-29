@@ -10,7 +10,12 @@
             </div>
           </div>
 
-          <input class="overlap-group" placeholder="Buscar Usuário" />
+          <input
+            class="overlap-group"
+            placeholder="Buscar Usuário"
+            v-model="search"
+            @input="searchUser"
+          />
         </div>
       </div>
       <div class="instrues">
@@ -23,7 +28,7 @@
       </div>
     </div>
 
-    <div class="bigcontainer" v-else> 
+    <div class="bigcontainer" v-else>
       <h3>Meus Favoritos</h3>
       <div class="big-container" v-for="node in favorites" :key="node.id">
         <h2>{{ node.name }}</h2>
@@ -40,12 +45,13 @@
   </div>
 </template>
 <script>
-import { mapState, mapActions} from "vuex";
+import { mapState, mapActions } from "vuex";
 export default {
   data() {
     return {
       img: false,
       clickToFav: false,
+      search: "",
     };
   },
   computed: {
@@ -78,11 +84,16 @@ export default {
   methods: {
     ...mapActions({ add: "favAdded" }),
     addToFavourites(id) {
-      this.clickToFav = true
+      this.clickToFav = true;
       const selectFav = this.nodes.filter((node) => {
         return node.id === id;
       });
       this.add(selectFav);
+    },
+    searchUser() {
+      return this.user.filter((user) => {
+        return user.name.toLowerCase().indexOf(this.search.toLowerCase()) != -1;
+      });
     },
   },
 };
