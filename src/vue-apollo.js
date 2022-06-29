@@ -38,12 +38,24 @@ const defaultOptions = {
   // Override the way the Authorization header is set
   // getAuth: (tokenName) => ...
 
+  getAuth: () => {
+    // get the authentication token from local storage if it exists
+    const token = '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'
+    // return the headers to the context so httpLink can read them
+    if (token) {
+      return 'Bearer ' + token
+    } else {
+      return ''
+    }
+  }
   // Additional ApolloClient options
   // apollo: { ... }
 
   // Client local data (see apollo-link-state)
   // clientState: { resolvers: { ... }, defaults: { ... } }
 }
+
+
 
 // Call this in the Vue app file
 export function createProvider (options = {}) {

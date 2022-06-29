@@ -46,6 +46,7 @@
 </template>
 <script>
 import { mapState, mapActions } from "vuex";
+import { TRENDING_REPO_DETAILS_QUERY } from '../queries/trendingRepoDetailsQuery'
 export default {
   data() {
     return {
@@ -53,6 +54,18 @@ export default {
       clickToFav: false,
       search: "",
     };
+  },
+  apollo: {
+    user: {
+      query: TRENDING_REPO_DETAILS_QUERY,
+      variables () {
+        return {
+          login:'OlindoMendes',
+          
+          queryString: 'language:' + this.searchString + ' stars:>10000',
+        }
+      }
+    }
   },
   computed: {
     ...mapState(["favorites"]),
